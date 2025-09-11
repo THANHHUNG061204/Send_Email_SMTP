@@ -44,6 +44,6 @@ Quy trình gửi email qua SMTP thường gồm:
 <img width="726" height="610" alt="{3C51E417-8633-460F-BCB1-DA97782B65DB}" src="https://github.com/user-attachments/assets/60e2ec0a-b959-447b-aabc-8e43b4e71b98" />
 
 ## 5. Các bước cài đặt
-### 1. Bước 1:
-### 2. Bước 2:
-### 3. Bước 3:
+### 1. Bước 1:File → New → Java Project → nhập tên project (ví dụ: SMTP_Socket) sau đó tạo package smtp.
+### 2. Bước 2:Tạo các class: SMTPServer.java, SMTPClient.java, SMTPClientGUI.java sau đó dán code vào.
+### 3. Bước 3:Chạy SMTP.sever trước để mở cổng lắng nghe sau đó chạy SMTPClientGUI.java để gửi mail mô phỏng.
