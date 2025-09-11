@@ -32,47 +32,16 @@ Quy trình gửi email qua SMTP thường gồm:
 ## 🔧 2. Ngôn ngữ lập trình sử dụng: [![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)](https://www.java.com/)
 
 ## 🚀 3. Công nghệ sử dụng
-1.Ngôn ngữ lập trình Java
+1.Ngôn ngữ Java – lập trình hướng đối tượng, hỗ trợ socket, dễ xây dựng mô phỏng SMTP.
 
-Java là ngôn ngữ lập trình hướng đối tượng phổ biến, mạnh mẽ, độc lập nền tảng.
+2.Eclipse IDE – công cụ phát triển Java phổ biến, hỗ trợ soạn thảo, chạy và debug code.
 
-Java có thư viện hỗ trợ mạng (java.net), cho phép lập trình socket dễ dàng để mô phỏng giao thức SMTP.
+3.Socket TCP/IP – dùng ServerSocket và Socket để mô phỏng giao thức SMTP.
 
-Ưu điểm: ổn định, đa nền tảng (Windows, Linux, macOS), dễ tích hợp với giao diện đồ họa (Swing, JavaFX).
-
-2.Môi trường phát triển tích hợp (IDE) – Eclipse
-
-Eclipse là IDE mã nguồn mở, phổ biến cho lập trình Java.
-
-Các tính năng chính:
-
-Soạn thảo code Java với gợi ý cú pháp, kiểm tra lỗi biên dịch ngay khi gõ.
-
-Tích hợp quản lý project, package, class thuận tiện.
-
-Hỗ trợ chạy, debug chương trình socket (Server/Client) trực tiếp.
-
-Cho phép tạo giao diện người dùng với Swing hoặc JavaFX dễ dàng.
-
-Hỗ trợ nhiều plugin mở rộng (Git, Maven, Gradle) phục vụ phát triển phần mềm.
-
-3.Công nghệ Socket trong Java
-
-Sử dụng ServerSocket để lắng nghe và chấp nhận kết nối từ client.
-
-Sử dụng Socket để tạo kết nối client–server và truyền dữ liệu theo chuẩn TCP.
-
-Dữ liệu được trao đổi bằng InputStream và OutputStream qua kết nối socket.
-
-Đây là nền tảng để mô phỏng giao thức SMTP (HELO, MAIL FROM, RCPT TO, DATA, QUIT).
-
-4.Thư viện giao diện người dùng Swing (nếu có GUI)
-
-Swing là bộ thư viện GUI tích hợp sẵn trong Java.
-
-Cho phép xây dựng giao diện trực quan (JFrame, JTextField, JTextArea, JButton…) để nhập dữ liệu (From, To, Subject, Body) và hiển thị kết quả giao tiếp với server.
+4.Swing (Java GUI) – xây dựng giao diện trực quan (JFrame, JTextField, JTextArea, JButton).
 
 ## 📝 4. Hình ảnh chức năng
+<img width="726" height="610" alt="{3C51E417-8633-460F-BCB1-DA97782B65DB}" src="https://github.com/user-attachments/assets/60e2ec0a-b959-447b-aabc-8e43b4e71b98" />
 
 ## 5. Các bước cài đặt
 ### 1. Bước 1:
