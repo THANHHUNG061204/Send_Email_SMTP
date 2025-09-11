@@ -25,7 +25,9 @@ SMTP (Simple Mail Transfer Protocol) là giao thức chuẩn được sử dụn
 Quy trình gửi email qua SMTP thường gồm:
 
 1.Xác thực người gửi: Máy khách đăng nhập vào máy chủ SMTP bằng tài khoản hợp lệ.
+
 2.Truyền tải thông điệp: Email được đóng gói và gửi qua các lệnh SMTP (HELO, MAIL FROM, RCPT TO, DATA...).
+
 3.Chuyển tiếp và phân phối: Máy chủ SMTP trung gian chuyển tiếp đến máy chủ nhận, nơi người nhận có thể truy cập email qua POP3 hoặc IMAP.
 ## 🔧 2. Ngôn ngữ lập trình sử dụng: [![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)](https://www.java.com/)
 
