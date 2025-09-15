@@ -4,7 +4,7 @@
     </a>
 </h2>
 <h2 align="center">
-   Gửi Email thông qua SMTP
+   Gửi Email Thông Qua SMTP
 </h2>
 <div align="center">
     <p align="center">
