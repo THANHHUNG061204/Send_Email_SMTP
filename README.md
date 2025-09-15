@@ -41,7 +41,7 @@ Quy trình gửi email qua SMTP thường gồm:
 4.Swing (Java GUI) – xây dựng giao diện trực quan (JFrame, JTextField, JTextArea, JButton).
 
 ## 📝 4. Hình ảnh chức năng
-<img width="726" height="610" alt="{3C51E417-8633-460F-BCB1-DA97782B65DB}" src="https://github.com/user-attachments/assets/60e2ec0a-b959-447b-aabc-8e43b4e71b98" />
+<img width="728" height="608" alt="{149895EC-F88D-463C-932A-4C2154326948}" src="https://github.com/user-attachments/assets/c7376ea4-6e99-4d56-bf8a-7c30aeb9905f" />
 
 ## 5. Các bước cài đặt
 ### 1. Bước 1:File → New → Java Project → nhập tên project (ví dụ: SMTP_Socket) sau đó tạo package smtp.
