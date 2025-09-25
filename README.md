@@ -41,7 +41,8 @@ Quy trình gửi email qua SMTP thường gồm:
 4.Swing (Java GUI) – xây dựng giao diện trực quan (JFrame, JTextField, JTextArea, JButton).
 
 ## 📝 4. Hình ảnh chức năng
-<img width="728" height="608" alt="{149895EC-F88D-463C-932A-4C2154326948}" src="https://github.com/user-attachments/assets/c7376ea4-6e99-4d56-bf8a-7c30aeb9905f" />
+<img width="728" height="608" alt="{4FCD99FC-1A05-4C26-86E9-61F344D7A2D4}" src="https://github.com/user-attachments/assets/d3e9c4eb-9965-4db3-a8a4-07f3b728ba79" />
+<img width="728" height="608" alt="{97708385-F610-49DA-A788-FF1E3510C4A9}" src="https://github.com/user-attachments/assets/78c3c407-37c3-4514-9e35-a05ab7b8e608" />
 <img width="728" height="608" alt="{9431F1FA-738A-4635-B9D3-9292B1843A8C}" src="https://github.com/user-attachments/assets/e949a3cc-ec3f-4693-a1e1-6b2b2db2ed9f" />
 
 ## 5. Các bước cài đặt
