@@ -53,7 +53,7 @@ Quy trình gửi email qua SMTP thường gồm:
 
                                                     Hình ảnh 3: Giao diện đăng kí
                                                     
-   <img width="800" height="608" alt="{9431F1FA-738A-4635-B9D3-9292B1843A8C}" src="https://github.com/user-attachments/assets/e949a3cc-ec3f-4693-a1e1-6b2b2db2ed9f" />
+   <img width="800" height="608" alt="{34B73871-99B0-48A2-AB6A-BD4AE4F84A08}" src="https://github.com/user-attachments/assets/731e5717-f01c-40c1-b1d3-a09036a841b7" />
 
                                                      Hình 4: Giao diện MailBox
 
