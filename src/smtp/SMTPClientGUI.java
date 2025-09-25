@@ -1,86 +1,173 @@
 package smtp;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
-import java.io.*;
-import java.net.Socket;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
 
 public class SMTPClientGUI extends JFrame {
-    private JTextField txtFrom, txtTo, txtSubject;
+    private JTextField txtFrom, txtTo, txtCc, txtBcc, txtSubject;
     private JTextArea txtBody;
-    private JButton btnSend;
+    private JLabel lblAttachment;
+    private File attachedFile;
 
     public SMTPClientGUI() {
-        setTitle("SMTP Client - Gửi Email");
-        setSize(600, 450);
+        setTitle("📧 Gmail Mini Client - Compose");
+        setSize(950, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel formPanel = new JPanel(new GridLayout(3, 2, 10, 10));
-        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // ======= HEADER =======
+        JPanel header = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                GradientPaint gp = new GradientPaint(0, 0, new Color(0, 191, 255),
+                        getWidth(), getHeight(), new Color(123, 104, 238));
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+        header.setPreferredSize(new Dimension(950, 60));
+        JLabel lblTitle = new JLabel(" Gmail Mini Client");
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
+        lblTitle.setForeground(Color.WHITE);
+        header.add(lblTitle);
 
-        formPanel.add(new JLabel("From:"));
-        txtFrom = new JTextField("demo@example.com");
-        formPanel.add(txtFrom);
+        // ======= Compose Panel =======
+        JPanel composePanel = buildComposePanel();
 
-        formPanel.add(new JLabel("To:"));
-        txtTo = new JTextField("alice@example.com,bob@example.com");
-        formPanel.add(txtTo);
-
-        formPanel.add(new JLabel("Subject:"));
-        txtSubject = new JTextField("Hello from Java");
-        formPanel.add(txtSubject);
-
-        txtBody = new JTextArea("Xin chào!\nĐây là email thử nghiệm từ client Java.");
-        txtBody.setLineWrap(true);
-        txtBody.setWrapStyleWord(true);
-        JScrollPane scrollPane = new JScrollPane(txtBody);
-
-        btnSend = new JButton("Gửi Email");
-        btnSend.setBackground(new Color(50, 205, 50));
-        btnSend.setForeground(Color.white);
-        btnSend.setFont(new Font("Arial", Font.BOLD, 14));
-
-        add(formPanel, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
-        add(btnSend, BorderLayout.SOUTH);
-
-        btnSend.addActionListener(e -> sendEmail());
+        // Layout
+        setLayout(new BorderLayout());
+        add(header, BorderLayout.NORTH);
+        add(composePanel, BorderLayout.CENTER);
     }
 
-    private void sendEmail() {
-        try {
-            Socket socket = new Socket("127.0.0.1", 2526);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
+    // ========== COMPOSE PANEL ==========
+    private JPanel buildComposePanel() {
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-            reader.readLine();
-            writer.write("HELO client.local\r\n"); writer.flush();
-            reader.readLine();
+        // Form
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-            writer.write("MAIL FROM:<" + txtFrom.getText() + ">\r\n"); writer.flush();
-            reader.readLine();
+        txtFrom = new JTextField("me@example.com");
+        txtTo = new JTextField();
+        txtCc = new JTextField();
+        txtBcc = new JTextField();
+        txtSubject = new JTextField();
 
-            for (String rcpt : txtTo.getText().split(",")) {
-                writer.write("RCPT TO:<" + rcpt.trim() + ">\r\n"); writer.flush();
-                reader.readLine();
-            }
+        String[] labels = {"From:", "To:", "CC:", "BCC:", "Subject:"};
+        JTextField[] fields = {txtFrom, txtTo, txtCc, txtBcc, txtSubject};
 
-            writer.write("DATA\r\n"); writer.flush();
-            reader.readLine();
+        for (int i = 0; i < labels.length; i++) {
+            gbc.gridx = 0; gbc.gridy = i;
+            JLabel lbl = new JLabel(labels[i]);
+            lbl.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            formPanel.add(lbl, gbc);
 
-            writer.write("Subject: " + txtSubject.getText() + "\r\n");
-            writer.write(txtBody.getText() + "\r\n.\r\n");
-            writer.flush();
-            reader.readLine();
-
-            writer.write("QUIT\r\n"); writer.flush();
-            reader.readLine();
-
-            JOptionPane.showMessageDialog(this, "Email đã gửi thành công!");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Lỗi gửi email: " + ex.getMessage());
+            gbc.gridx = 1; gbc.gridy = i; gbc.weightx = 1.0; gbc.gridwidth = 2;
+            fields[i].setBorder(new LineBorder(new Color(180, 180, 255), 1, true));
+            formPanel.add(fields[i], gbc);
         }
+
+        // Body
+        txtBody = new JTextArea();
+        txtBody.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        txtBody.setForeground(new Color(40, 40, 40));
+        txtBody.setBackground(new Color(250, 250, 255));
+        txtBody.setLineWrap(true);
+        txtBody.setWrapStyleWord(true);
+        JScrollPane bodyScroll = new JScrollPane(txtBody);
+        bodyScroll.setBorder(BorderFactory.createTitledBorder("✏ Nội dung email"));
+
+        // Attachment
+        JPanel attachPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton btnAttach = new JButton("📎 Đính kèm");
+        lblAttachment = new JLabel("Chưa có tệp đính kèm");
+        attachPanel.add(btnAttach);
+        attachPanel.add(lblAttachment);
+
+        // Buttons
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 10));
+        JButton btnSend = fancyButton(" Gửi", new Color(72, 209, 204), new Color(0, 191, 255));
+        JButton btnDraft = fancyButton(" Lưu nháp", new Color(255, 165, 0), new Color(255, 99, 71));
+        JButton btnPreview = fancyButton(" Xem trước", new Color(144, 238, 144), new Color(60, 179, 113));
+        JButton btnClear = fancyButton(" Xóa", new Color(255, 69, 0), new Color(220, 20, 60));
+        JButton btnSentBox = fancyButton(" Xem Sent Mailbox", new Color(100, 149, 237), new Color(65, 105, 225));
+
+        buttonPanel.add(btnSentBox);
+        buttonPanel.add(btnPreview);
+        buttonPanel.add(btnDraft);
+        buttonPanel.add(btnClear);
+        buttonPanel.add(btnSend);
+
+        // Action attach
+        btnAttach.addActionListener(e -> {
+            JFileChooser fc = new JFileChooser();
+            if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                attachedFile = fc.getSelectedFile();
+                lblAttachment.setText("📎 " + attachedFile.getName());
+            }
+        });
+
+        // Action send (liên kết SentMailbox)
+        btnSend.addActionListener(e -> {
+            SentMailbox.saveSentMail(
+                    txtFrom.getText(),
+                    txtTo.getText(),
+                    txtSubject.getText(),
+                    txtBody.getText()
+            );
+            JOptionPane.showMessageDialog(this,
+                    "📤 Email gửi thành công và đã lưu vào Sent Mailbox!",
+                    "Gửi thành công", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        btnDraft.addActionListener(e -> JOptionPane.showMessageDialog(this, " Email đã lưu nháp!"));
+        btnPreview.addActionListener(e -> JOptionPane.showMessageDialog(this, txtBody.getText(),
+                "👀 Xem trước", JOptionPane.INFORMATION_MESSAGE));
+        btnClear.addActionListener(e -> {
+            txtSubject.setText(""); txtBody.setText("");
+            txtTo.setText(""); txtCc.setText(""); txtBcc.setText("");
+            lblAttachment.setText("Chưa có tệp đính kèm");
+        });
+
+        btnSentBox.addActionListener(e -> new SentMailbox().setVisible(true));
+
+        // Layout
+        panel.add(formPanel, BorderLayout.NORTH);
+        panel.add(bodyScroll, BorderLayout.CENTER);
+        panel.add(attachPanel, BorderLayout.SOUTH);
+        panel.add(buttonPanel, BorderLayout.PAGE_END);
+
+        return panel;
+    }
+
+    // ========== BUTTON CUSTOM ==========
+    private JButton fancyButton(String text, Color c1, Color c2) {
+        JButton btn = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                GradientPaint gp = new GradientPaint(0, 0, c1, getWidth(), getHeight(), c2);
+                g2d.setPaint(gp);
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+                super.paintComponent(g);
+            }
+        };
+        btn.setContentAreaFilled(false);
+        btn.setFocusPainted(false);
+        btn.setForeground(Color.white);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        return btn;
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new SMTPClientGUI().setVisible(true));
     }
 }
