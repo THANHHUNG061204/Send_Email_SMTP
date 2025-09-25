@@ -5,10 +5,11 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Base64;
 
 public class SMTPServer {
     private static final String CRLF = "\r\n";
-    private int port;
+    private int port = 2526;
     private File mailboxDir;
 
     public SMTPServer(int port, String mailboxPath) {
@@ -35,6 +36,11 @@ public class SMTPServer {
         private List<String> rcptTo;
         private boolean dataMode;
         private List<String> buffer;
+        private boolean authenticated = false;
+
+        // Tài khoản hợp lệ
+        private final String validUser = "user";
+        private final String validPass = "123";
 
         public ClientHandler(Socket socket) {
             this.socket = socket;
@@ -74,16 +80,43 @@ public class SMTPServer {
                         case "EHLO":
                             sendLine("250 Hello " + arg);
                             break;
+
+                        case "AUTH":
+                            if (arg.toUpperCase().startsWith("LOGIN")) {
+                                sendLine("334 VXNlcm5hbWU6"); // "Username:"
+                                String username = reader.readLine();
+                                sendLine("334 UGFzc3dvcmQ6"); // "Password:"
+                                String password = reader.readLine();
+
+                                String decodedUser = new String(Base64.getDecoder().decode(username), StandardCharsets.UTF_8);
+                                String decodedPass = new String(Base64.getDecoder().decode(password), StandardCharsets.UTF_8);
+
+                                if (decodedUser.equals(validUser) && decodedPass.equals(validPass)) {
+                                    authenticated = true;
+                                    sendLine("235 Authentication successful");
+                                } else {
+                                    sendLine("535 Authentication failed");
+                                }
+                            } else {
+                                sendLine("504 Unrecognized authentication type");
+                            }
+                            break;
+
                         case "MAIL":
-                            if (arg.toUpperCase().startsWith("FROM:")) {
+                            if (!authenticated) {
+                                sendLine("530 Authentication required");
+                            } else if (arg.toUpperCase().startsWith("FROM:")) {
                                 mailFrom = extractAddr(arg.substring(5).trim());
                                 sendLine("250 OK");
                             } else {
                                 sendLine("501 Syntax: MAIL FROM:<address>");
                             }
                             break;
+
                         case "RCPT":
-                            if (arg.toUpperCase().startsWith("TO:")) {
+                            if (!authenticated) {
+                                sendLine("530 Authentication required");
+                            } else if (arg.toUpperCase().startsWith("TO:")) {
                                 String rcpt = extractAddr(arg.substring(3).trim());
                                 rcptTo.add(rcpt);
                                 sendLine("250 OK");
@@ -91,8 +124,11 @@ public class SMTPServer {
                                 sendLine("501 Syntax: RCPT TO:<address>");
                             }
                             break;
+
                         case "DATA":
-                            if (mailFrom == null || rcptTo.isEmpty()) {
+                            if (!authenticated) {
+                                sendLine("530 Authentication required");
+                            } else if (mailFrom == null || rcptTo.isEmpty()) {
                                 sendLine("503 Bad sequence of commands");
                             } else {
                                 sendLine("354 End data with <CRLF>.<CRLF>");
@@ -100,6 +136,7 @@ public class SMTPServer {
                                 buffer.clear();
                             }
                             break;
+
                         case "RSET":
                             reset();
                             sendLine("250 OK");
@@ -151,7 +188,7 @@ public class SMTPServer {
     }
 
     public static void main(String[] args) throws IOException {
-        SMTPServer server = new SMTPServer(2525, "mailbox");
+        SMTPServer server = new SMTPServer(2526, "mailbox");
         server.start();
     }
 }
