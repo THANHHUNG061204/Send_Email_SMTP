@@ -41,19 +41,19 @@ Quy trình gửi email qua SMTP thường gồm:
 4.Swing (Java GUI) – xây dựng giao diện trực quan (JFrame, JTextField, JTextArea, JButton).
 
 ## 📝 4. Hình ảnh chức năng
-   <img width="728" height="608" alt="{4FCD99FC-1A05-4C26-86E9-61F344D7A2D4}" src="https://github.com/user-attachments/assets/d3e9c4eb-9965-4db3-a8a4-07f3b728ba79" />
+   <img width="800" height="608" alt="{4FCD99FC-1A05-4C26-86E9-61F344D7A2D4}" src="https://github.com/user-attachments/assets/d3e9c4eb-9965-4db3-a8a4-07f3b728ba79" />
 
                                                     Hình ảnh 1: Giao diện gửi email
 
-   <img width="728" height="608" alt="{97708385-F610-49DA-A788-FF1E3510C4A9}" src="https://github.com/user-attachments/assets/78c3c407-37c3-4514-9e35-a05ab7b8e608" />
+   <img width="800" height="608" alt="{97708385-F610-49DA-A788-FF1E3510C4A9}" src="https://github.com/user-attachments/assets/78c3c407-37c3-4514-9e35-a05ab7b8e608" />
 
                                                     Hình ảnh 2: Giao diện đăng nhập
                                                     
-   <img width="728" height="608" alt="{66F0CAD1-91FF-4993-B076-8C497C6A5C5B}" src="https://github.com/user-attachments/assets/409a6544-028d-48f7-889b-baba171984f2" />
+   <img width="800" height="608" alt="{66F0CAD1-91FF-4993-B076-8C497C6A5C5B}" src="https://github.com/user-attachments/assets/409a6544-028d-48f7-889b-baba171984f2" />
 
                                                     Hình ảnh 3: Giao diện đăng kí
                                                     
-   <img width="728" height="608" alt="{9431F1FA-738A-4635-B9D3-9292B1843A8C}" src="https://github.com/user-attachments/assets/e949a3cc-ec3f-4693-a1e1-6b2b2db2ed9f" />
+   <img width="800" height="608" alt="{9431F1FA-738A-4635-B9D3-9292B1843A8C}" src="https://github.com/user-attachments/assets/e949a3cc-ec3f-4693-a1e1-6b2b2db2ed9f" />
 
                                                      Hình 4: Giao diện MailBox
 
